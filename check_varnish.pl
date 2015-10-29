@@ -160,13 +160,13 @@ sub parse_varnishstat {
     while (<VARNISHSTAT>) {
         s/\s+/ /g;    # normalise spaces
         /(\S+) (\S+) \S+ (.*)/;
-        $stats{$1}      = $2;
-        $stats_help{$1} = $3;
+        $stats{$1}      = $2 unless eof(VARNISHSTAT);
+        $stats_help{$1} = $3 unless eof(VARNISHSTAT);
     }
 
     # Add our special calculated counter 'cache_hit_percent'
-    my $hit             = $stats{'cache_hit'};
-    my $miss            = $stats{'cache_miss'};
+    my $hit             = $stats{'MAIN.cache_hit'};
+    my $miss            = $stats{'MAIN.cache_miss'};
     if ( ($hit + $miss) == 0 ) {
     	$stats{'cache_hit_percent'} = '-';
     }
@@ -212,7 +212,7 @@ each counter individually.
 Additionally, there is one 'special' counter that doesn't exist in the varnishstat -1 output -
 this is 'cache_hit_percent', which is calculated like this:
      
-     cache_hit_percent = ( cache_hit / ( cache_hit + cache_miss ) ) * 100
+     cache_hit_percent = ( MAIN.cache_hit / ( MAIN.cache_hit + MAIN.cache_miss ) ) * 100
 
 Usage:
 

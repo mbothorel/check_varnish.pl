@@ -1,4 +1,4 @@
-check_varnish.pl v1.0 - Nagios plugin for Varnish Cache monitoring
+check_varnish.pl v1.1 - Nagios plugin for Varnish Cache monitoring version 4
 
 This Nagios plugin reads the output of 'varnishstat -1', which presents a one-shot
 look at all the internal counters that Varnish has.
@@ -11,7 +11,7 @@ It will return Nagios perfdata for each counter requested.
 Additionally, there is one 'special' counter that doesn't exist in the varnishstat -1 output -
 this is 'cache_hit_percent', which is calculated like this:
      
-     cache_hit_percent = ( cache_hit / ( cache_hit + cache_miss ) ) * 100
+     cache_hit_percent = ( MAIN.cache_hit / ( MAIN.cache_hit + MAIN.cache_miss ) ) * 100
 
 Usage:
 
